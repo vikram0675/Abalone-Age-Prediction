@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Abalone Age Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-deepblue shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold">🐚 Abalone Age Predictor</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center d-flex align-items-center justify-content-center">
+      <div class="hero-content">
+        <h1 class="display-5 fw-bold mb-3 animate-fade">Dive Into the Depths of Marine Intelligence</h1>
+        <p class="lead mb-4 animate-fade-delay">Estimate the age of an abalone using deep learning and biological measurements.</p>
+        <a href="{{ url_for('predict_page') }}" class="btn btn-ocean btn-lg shadow animate-bounce">🔮 Start Predicting</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="container py-5 text-center fade-up">
+      <h3 class="fw-bold mb-3 text-primary">About the Predictor</h3>
+      <p class="text-muted mx-auto w-75">
+        The <b>Abalone Age Predictor</b> estimates an abalone’s age 
+        from biological traits — translating marine data into meaningful insights.
+      </p>
+      <img src="{{ url_for('static', filename='img/abalone.png') }}" 
+           alt="Abalone Shell" class="img-fluid mt-4 rounded shadow-lg about-img" width="300">
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="info-section bg-light py-5 fade-up">
+      <div class="container text-center">
+        <h3 class="fw-bold mb-4 text-primary">How It Works 🧭</h3>
+        <div class="row gy-4">
+          {% for step, title, desc in [
+            ('1️⃣', 'Input Data', 'You enter biological measurements.'),
+            ('2️⃣', 'Preprocessing', 'Data is normalized and prepared for prediction.'),
+            ('3️⃣', 'Model Prediction', 'Our trained ML model predicts the ring count.'),
+            ('4️⃣', 'Age Estimation', 'Age = Rings + 1.5 years.')
+          ] %}
+          <div class="col-md-3">
+            <div class="card border-0 process-card">
+              <div class="card-body">
+                <h5>{{ step }} {{ title }}</h5>
+                <p class="text-muted">{{ desc }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Abalone Insights Section -->
+    <section class="container py-5 text-center fade-up">
+      <h3 class="fw-bold mb-4 text-primary">Abalone Insights 🐚</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="insight-box shadow-sm">
+            <h5>🌊 Lifespan</h5>
+            <p class="text-muted">Abalones can live up to <b>40 years</b>, depending on the species.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="insight-box shadow-sm">
+            <h5>📏 Rings = Age</h5>
+            <p class="text-muted">Each ring inside the shell represents roughly <b>one year</b> of growth.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="insight-box shadow-sm">
+            <h5>🧬 Machine Learning</h5>
+            <p class="text-muted">Our model analyzes <b>biological features</b> to estimate age.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Try Now Section -->
+<div class="text-center py-5 try-now">
+  <h5 class="fw-bold mb-3">Try a Sample Prediction!</h5>
+
+  {% if last_age %}
+    <p class="text-muted">Your last predicted abalone’s age: <b>{{ last_age }} years</b> 🐚</p>
+  {% else %}
+    <p class="text-muted">Make your first prediction to see the result here 🐚</p>
+  {% endif %}
+
+  <a href="{{ url_for('predict_page') }}" class="btn btn-ocean btn-lg shadow">🔮 Try Now</a>
+</div>
+
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-deepblue">
+      <small>© 2025 Abalone Age Predictor | Powered by Flask & ML | @vikrAm</small>
+    </footer>
+  </body>
+</html>

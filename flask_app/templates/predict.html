@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predict Abalone Age</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <style>
+    .remove-btn { cursor: pointer; color: red; font-size: 1.2rem; }
+    .remove-btn:hover { color: darkred; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-deepblue shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">🐚 Abalone Age Predictor</a>
+  </div>
+</nav>
+
+<div class="container py-5">
+  <div class="card shadow-lg border-0 rounded-4 p-4">
+    {% if last_age %}
+      <div class="alert alert-info text-center">
+        Your last predicted abalone age: <b>{{ last_age }} years</b> 🐚
+      </div>
+    {% endif %}
+
+    <h3 class="card-title text-center mb-4">Enter Abalone Measurements</h3>
+
+    <form action="{{ url_for('output') }}" method="post" id="multi-form">
+      <div id="abalone-rows">
+        <!-- First row -->
+        <div class="row g-3 abalone-row border-bottom pb-3 mb-3">
+          <div class="col-md-2">
+            <label class="form-label">Sex (0=F,1=I,2=M)</label>
+            <input name="sex[]" type="number" min="0" max="2" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Length (mm)</label>
+            <input name="length[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Diameter (mm)</label>
+            <input name="diameter[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Height (mm)</label>
+            <input name="height[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Whole Weight (g)</label>
+            <input name="whole[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Shucked Weight (g)</label>
+            <input name="shucked[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Viscera Weight (g)</label>
+            <input name="viscera[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Shell Weight (g)</label>
+            <input name="shell[]" type="number" step="any" class="form-control" required>
+          </div>
+          <div class="col-md-1 d-flex align-items-end">
+            <span class="remove-btn" onclick="removeRow(this)">✖</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <button type="button" class="btn btn-outline-primary mb-3" onclick="addRow()">➕ Add Another Abalone</button>
+      </div>
+
+      <div class="col-12 text-center mt-4">
+        <button type="submit" class="btn btn-ocean btn-lg px-4 me-2">🔮 Predict Age</button>
+        <button type="reset" class="btn btn-light btn-lg px-4 me-2">Clear</button>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary btn-lg px-4">Back</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="text-center py-3">
+  <small>Prediction Formula: <b>Age = Rings + 1.5 years</b></small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function addRow() {
+  let container = document.getElementById("abalone-rows");
+  let newRow = document.querySelector(".abalone-row").cloneNode(true);
+  newRow.querySelectorAll("input").forEach(input => input.value = "");
+  container.appendChild(newRow);
+}
+
+function removeRow(element) {
+  let row = element.closest(".abalone-row");
+  let container = document.getElementById("abalone-rows");
+  if(container.children.length > 1) row.remove();
+  else alert("At least one abalone must be entered!");
+}
+</script>
+</body>
+</html>
